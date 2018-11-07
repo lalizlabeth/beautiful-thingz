@@ -80,10 +80,10 @@ var linesOff = { render: { visible: false } };
 
 // creates circle grid
 var circleSoftBody1 = Composites.softBody(
-  0.2*windowWidth, 0.4*windowHeight, 3, 3, 0, 0, true, 70,
+  0.2*windowWidth, 0.7*windowHeight, 3, 3, 0, 0, true, 75,
   {
     friction: 1.0,
-    frictionAir: 0.5,
+    frictionAir: 1.0,
     render: {
       fillStyle: pink,
       visible: true
@@ -91,14 +91,14 @@ var circleSoftBody1 = Composites.softBody(
   },
   linesOff
 );
-
 objects.push(circleSoftBody1);
 
 // creates linked circles
 var circleSoftBody2 = Composites.softBody(
-  0.7*windowWidth, Math.random() * windowHeight * 0.5, 1, 7, 10, 10, true, 60,
+  0.9*windowWidth, windowHeight * 0.1, 1, 7, 10, 10, true, 60,
   {
-    friction: 1.0,
+    friction: 0.8,
+    frictionAir: 0.8,
     density: 0.9,
     render: {       
       fillStyle: blue,
@@ -118,26 +118,26 @@ objects.push(circleSoftBody2);
 // creates rectangle
 var rectangle = Bodies.rectangle(
     0.6*windowWidth,
-    Math.random() * windowHeight,
+    0.2 * windowHeight,
     80,
-    450,
+    600,
     {
       angularVelocity: 0.2,
       frictionAir: 0.8,
-      friction: 0.8,
+      friction: 0.7,
       render: {
         fillStyle: green
       } 
     }
 );
 
-Body.rotate(rectangle, 0.3);
+Body.rotate(rectangle, Math.random());
 objects.push(rectangle);
 
 var circle = Bodies.circle(
     0.7*windowWidth,
     Math.random() * windowHeight,
-    40,
+    90,
     {
       friction: 0.5,
       frictionStatic: 10,
@@ -153,8 +153,8 @@ objects.push(circle);
 
 // Creating triangle
 var triangle = Bodies.polygon(
-    0.8*windowWidth,
-    Math.random() * windowHeight,
+    0.2*windowWidth,
+    0.3 * windowHeight,
     3,
     50,
     {
@@ -164,18 +164,20 @@ var triangle = Bodies.polygon(
         fillStyle: orange
     }
   });
+Body.rotate(triangle, Math.random());
 objects.push(triangle);
 
 var size = 150;
 
 var stackOptions = {
   friction: 1.0,
+  rotate: Math.random(),
   render: {
     fillStyle: "white",
   }
 }
 
-var stack = Composites.stack(100, 280, 1, 2, 0, 0, function(x, y) {
+var plus1 = Composites.stack(windowWidth*0.9, windowHeight*0.7, 1, 1, 0, 0, function(x, y) {
     var partA = Bodies.rectangle(x, y, size, size / 5, stackOptions),
         partB = Bodies.rectangle(x, y, size / 5, size, { render: partA.render });
 
@@ -184,7 +186,16 @@ var stack = Composites.stack(100, 280, 1, 2, 0, 0, function(x, y) {
     });
 });
 
-objects.push(stack);
+var plus2 = Composites.stack(10, 20, 1, 1, 0, 0, function(x, y) {
+    var partA = Bodies.rectangle(x, y, size, size / 5, stackOptions),
+        partB = Bodies.rectangle(x, y, size / 5, size, { render: partA.render });
+
+    return Body.create({
+        parts: [partA, partB]
+    });
+});
+
+objects.push(plus1, plus2);
 
 // Scaling things for large screen
 for (var i = 0; i < objects.length; i +=1){
@@ -197,38 +208,28 @@ for (var i = 0; i < objects.length; i +=1){
   }  
 };
 
+$.get('../static/img/blob.svg').done(function(data) {
+    var vertexSets = [],
+        color = yellow;
+    $(data).find('path').each(function(i, path) {
+        var points = Svg.pathToVertices(path);
+        vertexSets.push(Vertices.scale(points, 1.75, 1.6));
+    });
+
+
+    World.add(world, Bodies.fromVertices(windowWidth*0.2, 0.6 * windowHeight, vertexSets, {
+        friction: 0,
+        angularVelocity: 0.5,
+        render: {
+            fillStyle: color,
+            strokeStyle: color,
+            lineWidth: 1
+        }
+    }, true));
+});
+
 // adding objects to the world
 World.add(world, objects);
-
-var svgs = [
-  'blob'
-];
-
-for (var i = 0; i < svgs.length; i += 1) {
-    (function(i) {
-        $.get("../static/img/blob.svg").done(function(data) {
-
-            var vertexSets = [];
-
-            color = yellow;
-            $(data).find('path').each(function(i, path) {
-                var points = Svg.pathToVertices(path);
-                // vertexSets.push(Vertices.chamfer(points, 100, 100, 1, 1, 1))
-                vertexSets.push(Vertices.scale(points, 1.75, 1.6));
-            });
-
-            World.add(engine.world, Bodies.fromVertices(windowWidth*0.2, Math.random() * windowHeight, vertexSets, {
-                friction: 0,
-                angularVelocity: 0.5,
-                render: {
-                    fillStyle: color,
-                    strokeStyle: color,
-                    lineWidth: 1
-                }
-            }, true));
-        });
-    })(i);
-}
 
 var mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
@@ -241,12 +242,6 @@ var mouse = Mouse.create(render.canvas),
         }
     });
 
-Events.on(mouseConstraint, 'startdrag', function(e){
-});
-
-Events.on(mouseConstraint, 'enddrag', function(e){
-});
-
 var seconds = 1;
 setInterval(function () {
   seconds++;
@@ -254,6 +249,7 @@ setInterval(function () {
 
 var trail = [];
 
+// Rendering
 Events.on(render, 'afterRender', function() {
     trail.unshift({
         position: Vector.clone(circle.position),
@@ -264,7 +260,7 @@ Events.on(render, 'afterRender', function() {
     Render.startViewTransform(render);
 
     for (var i = 0; i < trail.length; i += 1) {
-        render.context.globalAlpha = 0.4;
+        render.context.globalAlpha = 0.3;
 
         var point = trail[i].position,
             speed = trail[i].speed,
@@ -285,7 +281,7 @@ Events.on(render, 'afterRender', function() {
         trail.pop();
     }
 
-    Body.scale(circle, 0.001 * Math.sin(seconds) + 1, 0.001 * Math.sin(seconds) + 1);
+    Body.scale(circle, 0.002 * Math.sin(seconds*2) + 1, 0.002 * Math.sin(seconds*2) + 1);
 });
 
 
@@ -299,17 +295,19 @@ Events.on(render, 'afterRender', function() {
     });
 
     Render.startViewTransform(render);
+    
 
     for (var i = 0; i < triangle_trail.length; i += 1) {
-        render.context.globalAlpha = 0.4;
+        render.context.globalAlpha = 0.3;
 
         var point = triangle_trail[i].position,
             speed = triangle_trail[i].speed,
             shapeSize = triangle_trail[i].shapeSize;
         
         render.context.fillStyle = orange;
-        var hue = 30 + Math.round((1 - Math.min(1, speed / 10)) * 48);
+        // var hue = 30 + Math.round((1 - Math.min(1, speed / 10))*5);
         // var hue = 30;
+        // render.context.globalCompositeOperation = 'multiply';
         // render.context.fillStyle = 'hsl(' + hue + ', 100%, 55%)';
 
         render.context.setLineDash([]);
@@ -325,9 +323,10 @@ Events.on(render, 'afterRender', function() {
         triangle_trail.pop();
     }
 
+    Body.scale(triangle, 0.002 * Math.sin(seconds) + 1, 0.002 * Math.sin(seconds) + 1);
+    
+
 });
-
-
 
 // add mouse constraint
 World.add(engine.world, mouseConstraint);

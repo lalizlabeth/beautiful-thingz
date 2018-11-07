@@ -4,7 +4,7 @@ body, html, canvas {
     margin: 0;
     padding: 0;
     text-align: center;
-    height: 100vh;
+    height: 100%;
     width: 100%;
 }
 
@@ -76,7 +76,6 @@ header {
 canvas {
     background: black;
     height: 1700px;
-    // height: 90%;
     margin: 0;
 }
 
@@ -122,22 +121,19 @@ canvas {
     flex-wrap: wrap;
     height: 100%;
     width: 100%;
-    padding-bottom: 300px;
+    padding-bottom: 480px;
 }
 
 .gallery-item {
     background: black;
     box-sizing: border-box;
-    border: 2px solid white;
+    border: 1px solid white;
+    border-top: none;
     width: 33.333%;
+    &:nth-of-type(1n){
+        border-left: none;
+    }
+    &:nth-of-type(3n){
+        border-right: none;
+    }
 }
-
-
-
-
-
-
-
-
-
-

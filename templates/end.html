@@ -13,7 +13,7 @@
     <h2 class="heading">Gallery of Beautiful Things</h1>
     <ul class="gallery">
         {% for image in images %}
-            <li class="gallery-item"><img width='100%' src="{{ image }}""></li>
+            <li class="gallery-item" id="{{ loop.index }}"><img width='100%' src="{{ image }}""></li>
         {% endfor %}
     </ul>
     <div class="bottom-shelf">
