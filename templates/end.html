@@ -1,0 +1,23 @@
+{% extends "template.html" %}
+
+{% block custom_css %}
+    body {
+        background: #ec469c;
+        box-sizing: border-box;
+        padding: 90px 0;
+    }
+{% endblock %}
+
+{% block body %}
+<div class="end-screen">
+    <h2 class="heading">Gallery of Beautiful Things</h1>
+    <ul class="gallery">
+        {% for image in images %}
+            <li class="gallery-item"><img width='100%' src="{{ image }}""></li>
+        {% endfor %}
+    </ul>
+    <div class="bottom-shelf">
+        <a id="restart-btn" href="{{ url_for('index') }}">Restart</a>
+    </div>
+</div>
+{% endblock %}

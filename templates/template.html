@@ -1,0 +1,20 @@
+<!doctype html>
+<title>What is beautiful?</title>
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Passion+One">
+<link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+    {% block custom_css %}
+
+    {% endblock %}
+</style>
+<body style="margin: 0; height: 100vh;">
+
+    {% block body %}
+
+    {% endblock %}
+
+</body>
+
+</html>

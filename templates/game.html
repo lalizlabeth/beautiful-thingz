@@ -1,0 +1,28 @@
+{% extends "template.html" %}
+
+{% block custom_css %}
+    body {
+        background: #ec469c;
+    }
+{% endblock %}
+
+{% block body %}
+<canvas id="drawing"></canvas>
+
+<div class="buttons">
+    <a href="" id="reset">Reset</a>
+
+    <form method="POST">
+        <a href="{{ url_for('end') }}" id="save">It's beautiful!</a>
+    </form>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/path-data-polyfill.js') }}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/pathseg.js') }}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/decomp.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/matter.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/beauty.js') }}"></script>
+{% endblock %}

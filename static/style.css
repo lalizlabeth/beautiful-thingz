@@ -1,0 +1,113 @@
+body, html, canvas {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  height: 100vh;
+  width: 100%; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+  color: white;
+  font-family: 'Passion One';
+  text-align: center; }
+
+h1 {
+  font-family: 'Passion One';
+  font-weight: 500;
+  font-size: 12em;
+  line-height: 0.9;
+  text-transform: uppercase; }
+
+h2 {
+  font-weight: 500;
+  font-size: 8em;
+  line-height: 0.9;
+  text-transform: uppercase; }
+
+p {
+  font-size: 5em;
+  margin-top: 24px; }
+
+a {
+  background: #ec469c;
+  border: 8px solid white;
+  border-radius: 20px;
+  color: white;
+  display: inline-block;
+  font-size: 5em;
+  margin-top: 90px;
+  padding: 28px 60px 24px 60px;
+  text-decoration: none; }
+  a:hover {
+    background-color: #e71783; }
+
+.buttons {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  height: 220px;
+  justify-content: space-between;
+  padding: 0 32px;
+  width: 100%; }
+  .buttons a {
+    margin-top: 0; }
+
+header {
+  padding: 25px 0; }
+
+canvas {
+  background: black;
+  height: 1700px;
+  margin: 0; }
+
+.start-screen {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%; }
+
+.end-screen {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; }
+  .end-screen .heading,
+  .end-screen .bottom-shelf {
+    padding-left: 60px;
+    padding-right: 60px; }
+  .end-screen .heading {
+    margin-bottom: 60px; }
+
+.bottom-shelf {
+  background: #ec469c;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 48px 0; }
+  .bottom-shelf #restart-btn {
+    margin: 0; }
+
+.gallery {
+  background: black;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  padding-bottom: 300px; }
+
+.gallery-item {
+  background: black;
+  box-sizing: border-box;
+  border: 2px solid white;
+  width: 33.333%; }
+
+/*# sourceMappingURL=style.css.map */
