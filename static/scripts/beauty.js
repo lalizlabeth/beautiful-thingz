@@ -80,10 +80,10 @@ var linesOff = { render: { visible: false } };
 
 // creates circle grid
 var circleSoftBody1 = Composites.softBody(
-  0.2*windowWidth, 0.7*windowHeight, 3, 3, 0, 0, true, 75,
+  0.2*windowWidth, 0.7*windowHeight, 3, 3, 0, 0, true, 60,
   {
+    density: 0.9,
     friction: 1.0,
-    frictionAir: 1.0,
     render: {
       fillStyle: pink,
       visible: true
@@ -95,10 +95,9 @@ objects.push(circleSoftBody1);
 
 // creates linked circles
 var circleSoftBody2 = Composites.softBody(
-  0.9*windowWidth, windowHeight * 0.1, 1, 7, 10, 10, true, 60,
+  0.9*windowWidth, windowHeight * 0.1, 1, 8, 10, 10, true, 60,
   {
-    friction: 0.8,
-    frictionAir: 0.8,
+    friction: 1.0,
     density: 0.9,
     render: {       
       fillStyle: blue,
@@ -140,9 +139,9 @@ var circle = Bodies.circle(
     90,
     {
       friction: 0.5,
-      frictionStatic: 10,
+      frictionStatic: 1.0,
       restitution: 1.0,
-      speed: 0.3,
+      speed: 0.2,
       render: {
         fillStyle: purple
       } 
@@ -159,7 +158,7 @@ var triangle = Bodies.polygon(
     50,
     {
       chamfer: { radius: 10 },
-      friction: 1,
+      friction: 1.0,
       render: {
         fillStyle: orange
     }
@@ -218,7 +217,7 @@ $.get('../static/img/blob.svg').done(function(data) {
 
 
     World.add(world, Bodies.fromVertices(windowWidth*0.2, 0.6 * windowHeight, vertexSets, {
-        friction: 0,
+        friction: 1.0,
         angularVelocity: 0.5,
         render: {
             fillStyle: color,
@@ -281,7 +280,7 @@ Events.on(render, 'afterRender', function() {
         trail.pop();
     }
 
-    Body.scale(circle, 0.002 * Math.sin(seconds*2) + 1, 0.002 * Math.sin(seconds*2) + 1);
+    // Body.scale(circle, 0.002 * Math.sin(seconds*2) + 1, 0.002 * Math.sin(seconds*2) + 1);
 });
 
 
@@ -323,7 +322,7 @@ Events.on(render, 'afterRender', function() {
         triangle_trail.pop();
     }
 
-    Body.scale(triangle, 0.002 * Math.sin(seconds) + 1, 0.002 * Math.sin(seconds) + 1);
+    // Body.scale(triangle, 0.002 * Math.sin(seconds) + 1, 0.002 * Math.sin(seconds) + 1);
     
 
 });

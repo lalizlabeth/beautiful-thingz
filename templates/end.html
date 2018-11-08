@@ -12,12 +12,15 @@
 <div class="end-screen">
     <h2 class="heading">Gallery of Beautiful Things</h1>
     <ul class="gallery">
-        {% for image in images %}
-            <li class="gallery-item" id="{{ loop.index }}"><img width='100%' src="{{ image }}""></li>
+        {% for image, number in img_list %}
+            <li class="gallery-item">
+                <h3 class="img_label">Thing #{{ number }}</h3>
+                <img width='100%' src="{{ image }}"">
+            </li>
         {% endfor %}
     </ul>
     <div class="bottom-shelf">
-        <a id="restart-btn" href="{{ url_for('index') }}">Restart</a>
+        <a id="restart-btn" href="{{ url_for('index') }}">I'm done!</a>
     </div>
 </div>
 {% endblock %}

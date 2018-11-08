@@ -3,10 +3,8 @@ from flask import render_template, request
 import base64, re, time
 from glob import glob
 from random import randint
-# from PIL import Image
 
 app = Flask(__name__)
-files = glob("static/things/*.png")
 
 @app.route('/index')
 @app.route('/')
@@ -19,7 +17,13 @@ def game():
 
 @app.route('/end')
 def end():
-    return render_template('end.html', images=files)
+    files = glob("static/things/*.png")
+    # file_numbers = list(reversed([i for i in range(len(files))]))[:9]
+    file_numbers = list(reversed([i for i in range(len(files))]))
+    # latest = list(reversed(files))[:9]
+    latest = list(reversed(files))
+    # return render_template('end.html', images=latest, numbers=file_numbers)
+    return render_template('end.html', img_list=zip(latest,file_numbers))
 
 @app.route('/save', methods=["POST"])
 def save_image():

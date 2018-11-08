@@ -48,7 +48,7 @@ a {
     color: white;
     display: inline-block;
     font-size: 5em;
-    margin-top: 90px;
+    margin-top: 32px;
     padding: 28px 60px 24px 60px;
     text-decoration: none;
     &:hover {
@@ -81,17 +81,21 @@ canvas {
 
 .start-screen {
     align-items: center;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 45% 60px 48px 60px;
     height: 100%;
+    .bottom-area {
+
+    }
 }
 
 .end-screen {
     align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 100%;
     .heading,
     .bottom-shelf {
@@ -105,6 +109,7 @@ canvas {
 
 .bottom-shelf {
     background: $pink;
+    // border-top: 1px solid white;
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -119,16 +124,19 @@ canvas {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    height: 100%;
+    overflow-y: scroll;
+    height: 1300px;
     width: 100%;
-    padding-bottom: 480px;
+    margin-bottom: 20px;
 }
 
 .gallery-item {
     background: black;
+    background-size: contain;
     box-sizing: border-box;
-    border: 1px solid white;
+    border: 24px solid $pink;
     border-top: none;
+    pointer-events: none;
     width: 33.333%;
     &:nth-of-type(1n){
         border-left: none;
@@ -136,4 +144,13 @@ canvas {
     &:nth-of-type(3n){
         border-right: none;
     }
+    &:last-child{
+        // margin-bottom: 219px;
+    }
+}
+
+.img_label {
+    background: black;
+    padding: 20px 0;
+    font-size: 32px;
 }
