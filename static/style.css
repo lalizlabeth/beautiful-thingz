@@ -84,8 +84,9 @@ canvas {
   .end-screen .bottom-shelf {
     padding-left: 60px;
     padding-right: 60px; }
-  .end-screen .heading {
-    margin-bottom: 60px; }
+  .end-screen p {
+    margin-bottom: 48px;
+    opacity: 0.75; }
 
 .bottom-shelf {
   background: #ec469c;

@@ -10,7 +10,8 @@
 
 {% block body %}
 <div class="end-screen">
-    <h2 class="heading">Gallery of Beautiful Things</h1>
+    <h2 class="heading">Gallery of Beautiful Things</h2>
+    <p>Scroll with two fingers</p>
     <ul class="gallery">
         {% for image, number in img_list %}
             <li class="gallery-item">
@@ -23,4 +24,14 @@
         <a id="restart-btn" href="{{ url_for('index') }}">I'm done!</a>
     </div>
 </div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/idle-timer.js') }}"></script>
+<script>
+$(function() {
+    $( document ).idleTimer( 30000 );
+    $( document ).bind("idle.idleTimer", function(){
+        location.href="/";
+    });
+});
+</script>
 {% endblock %}

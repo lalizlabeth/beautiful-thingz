@@ -102,14 +102,11 @@ canvas {
         padding-left: 60px;
         padding-right: 60px;
     }
-    .heading {
-        margin-bottom: 60px;
-    }
+    p { margin-bottom: 48px; opacity: 0.75; }
 }
 
 .bottom-shelf {
     background: $pink;
-    // border-top: 1px solid white;
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -143,9 +140,6 @@ canvas {
     }
     &:nth-of-type(3n){
         border-right: none;
-    }
-    &:last-child{
-        // margin-bottom: 219px;
     }
 }
 

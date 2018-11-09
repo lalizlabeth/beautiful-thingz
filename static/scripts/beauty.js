@@ -5,12 +5,25 @@ var windowHeight = 1700,
 
 // colors
 var pink = '#ec469c',
-    yellow = '#ffdb47',
+    yellow = '#ffdb2f',
     purple = '#a538e3',
     blue = '#1fcee5',
     orange = '#ff8000',
     green = '#1fcb58',
-    darkBlue = '#fff';
+    darkBlue = '#2649ff',
+    red = '#ff1832';
+
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+var colors = [pink, yellow, purple, blue, orange, green];
+shuffleArray(colors);
 
 // module aliases
 var Bodies = Matter.Bodies,
@@ -80,12 +93,15 @@ var linesOff = { render: { visible: false } };
 
 // creates circle grid
 var circleSoftBody1 = Composites.softBody(
-  0.2*windowWidth, 0.7*windowHeight, 3, 3, 0, 0, true, 60,
+  0.15*windowWidth, 0.8*windowHeight, 3, 3, 0, 0, true, 75,
   {
-    density: 0.9,
     friction: 1.0,
+    frictionAir: 1.0,
+    frictionStatic: 1.0,
+    stiffness: 1.0,
     render: {
-      fillStyle: pink,
+      fillStyle: colors[0],
+      // fillStyle: pink,
       visible: true
     } 
   },
@@ -94,13 +110,18 @@ var circleSoftBody1 = Composites.softBody(
 objects.push(circleSoftBody1);
 
 // creates linked circles
+// console.log(Math.floor(Math.random()*6));
+
 var circleSoftBody2 = Composites.softBody(
   0.9*windowWidth, windowHeight * 0.1, 1, 8, 10, 10, true, 60,
   {
     friction: 1.0,
-    density: 0.9,
+    frictionAir: 1.0,
+    frictionStatic: 1.0,
+    stiffness: 1.0,
     render: {       
-      fillStyle: blue,
+      // fillStyle: blue,
+      fillStyle: colors[1],
       visible: true
     } 
   },
@@ -111,6 +132,8 @@ var circleSoftBody2 = Composites.softBody(
     }
   }
 );
+
+console.log(circleSoftBody1)
 
 objects.push(circleSoftBody2);
 
@@ -125,7 +148,8 @@ var rectangle = Bodies.rectangle(
       frictionAir: 0.8,
       friction: 0.7,
       render: {
-        fillStyle: green
+        // fillStyle: green
+        fillStyle: colors[2],
       } 
     }
 );
@@ -143,7 +167,8 @@ var circle = Bodies.circle(
       restitution: 1.0,
       speed: 0.2,
       render: {
-        fillStyle: purple
+        // fillStyle: purple
+        fillStyle: colors[3],
       } 
     }
 );
@@ -159,14 +184,17 @@ var triangle = Bodies.polygon(
     {
       chamfer: { radius: 10 },
       friction: 1.0,
+      frictionAir: 0.8,
+      frictionStatic: 0.9,
       render: {
-        fillStyle: orange
+        // fillStyle: orange
+        fillStyle: colors[4],
     }
   });
 Body.rotate(triangle, Math.random());
 objects.push(triangle);
 
-var size = 150;
+var size = 100;
 
 var stackOptions = {
   friction: 1.0,
@@ -209,7 +237,8 @@ for (var i = 0; i < objects.length; i +=1){
 
 $.get('../static/img/blob.svg').done(function(data) {
     var vertexSets = [],
-        color = yellow;
+        // color = yellow;
+        color = colors[5];
     $(data).find('path').each(function(i, path) {
         var points = Svg.pathToVertices(path);
         vertexSets.push(Vertices.scale(points, 1.75, 1.6));
@@ -227,6 +256,25 @@ $.get('../static/img/blob.svg').done(function(data) {
     }, true));
 });
 
+// $.get('../static/img/spikey.svg').done(function(data) {
+//     var vertexSets = [],
+//         color = red;
+//     $(data).find('path').each(function(i, path) {
+//         var points = Svg.pathToVertices(path);
+//         vertexSets.push(Vertices.scale(points, 1.2, 1.2));
+//     });
+
+//     World.add(world, Bodies.fromVertices(windowWidth*0.3, 0.15 * windowHeight, vertexSets, {
+//         friction: 1.0,
+//         render: {
+//             fillStyle: color,
+//             strokeStyle: color,
+//             lineWidth: 1
+//         }
+//     }, true));
+// });
+
+
 // adding objects to the world
 World.add(world, objects);
 
@@ -234,17 +282,13 @@ var mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
         mouse: mouse,
         constraint: {
-            stiffness: 0.9,
+            // stiffness: 0.9,
+            // damping: 0.9,
             render: {
                 visible: false
             }
         }
     });
-
-var seconds = 1;
-setInterval(function () {
-  seconds++;
-}, 1000);
 
 var trail = [];
 
@@ -265,7 +309,7 @@ Events.on(render, 'afterRender', function() {
             speed = trail[i].speed,
             shapeSize = trail[i].shapeSize;
         
-        render.context.fillStyle = purple;
+        render.context.fillStyle = colors[3];
 
         render.context.setLineDash([]);
         render.context.beginPath();
@@ -303,7 +347,7 @@ Events.on(render, 'afterRender', function() {
             speed = triangle_trail[i].speed,
             shapeSize = triangle_trail[i].shapeSize;
         
-        render.context.fillStyle = orange;
+        render.context.fillStyle = colors[4];
         // var hue = 30 + Math.round((1 - Math.min(1, speed / 10))*5);
         // var hue = 30;
         // render.context.globalCompositeOperation = 'multiply';
@@ -330,12 +374,15 @@ Events.on(render, 'afterRender', function() {
 // add mouse constraint
 World.add(engine.world, mouseConstraint);
 
-$('#save').on('click', function(){
+$('#save').on('click', function(e){
+    e.preventDefault();
     var canvasElement = document.getElementById('drawing');
     var MIME_TYPE = "image/png";
     var imgURL = canvasElement.toDataURL(MIME_TYPE);
 
-    $.post('/save', {imgdata: imgURL});
+    $.post('/save', {imgdata: imgURL}, function(e){
+      window.location = '/end';
+    });
 });
 
 $('#reset').on('click', function(){
