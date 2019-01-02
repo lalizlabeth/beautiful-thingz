@@ -93,7 +93,7 @@ var linesOff = { render: { visible: false } };
 
 // creates circle grid
 var circleSoftBody1 = Composites.softBody(
-  0.15*windowWidth, 0.8*windowHeight, 3, 3, 0, 0, true, 75,
+  0.15*windowWidth, 0.75*windowHeight, 3, 3, 0, 0, true, 75,
   {
     friction: 1.0,
     frictionAir: 1.0,
@@ -110,7 +110,6 @@ var circleSoftBody1 = Composites.softBody(
 objects.push(circleSoftBody1);
 
 // creates linked circles
-// console.log(Math.floor(Math.random()*6));
 
 var circleSoftBody2 = Composites.softBody(
   0.9*windowWidth, windowHeight * 0.1, 1, 8, 10, 10, true, 60,
@@ -213,7 +212,7 @@ var plus1 = Composites.stack(windowWidth*0.9, windowHeight*0.7, 1, 1, 0, 0, func
     });
 });
 
-var plus2 = Composites.stack(10, 20, 1, 1, 0, 0, function(x, y) {
+var plus2 = Composites.stack(windowWidth*0.3, windowHeight*0.15, 1, 1, 0, 0, function(x, y) {
     var partA = Bodies.rectangle(x, y, size, size / 5, stackOptions),
         partB = Bodies.rectangle(x, y, size / 5, size, { render: partA.render });
 
@@ -255,25 +254,6 @@ $.get('../static/img/blob.svg').done(function(data) {
         }
     }, true));
 });
-
-// $.get('../static/img/spikey.svg').done(function(data) {
-//     var vertexSets = [],
-//         color = red;
-//     $(data).find('path').each(function(i, path) {
-//         var points = Svg.pathToVertices(path);
-//         vertexSets.push(Vertices.scale(points, 1.2, 1.2));
-//     });
-
-//     World.add(world, Bodies.fromVertices(windowWidth*0.3, 0.15 * windowHeight, vertexSets, {
-//         friction: 1.0,
-//         render: {
-//             fillStyle: color,
-//             strokeStyle: color,
-//             lineWidth: 1
-//         }
-//     }, true));
-// });
-
 
 // adding objects to the world
 World.add(world, objects);

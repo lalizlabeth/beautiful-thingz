@@ -27,11 +27,11 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='scripts/idle-timer.js') }}"></script>
 <script>
-$(function() {
-    $( document ).idleTimer( 30000 );
-    $( document ).bind("idle.idleTimer", function(){
-        location.href="/";
-    });
-});
+// $(function() {
+//     $( document ).idleTimer( 60000 );
+//     $( document ).bind("idle.idleTimer", function(){
+//         location.href="/";
+//     });
+// });
 </script>
 {% endblock %}
